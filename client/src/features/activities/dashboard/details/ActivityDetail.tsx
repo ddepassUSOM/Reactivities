@@ -3,9 +3,11 @@ import { Card, CardActions, CardContent, CardMedia, Typography } from "@mui/mate
 
 type Props = {
     activity: Activity
+    cancelSelectActivity: () => void
 }
 
-export default function ActivityDetails({activity}: Props) {
+
+export default function ActivityDetails({activity, cancelSelectActivity}: Props) {
   return (
         <Card sx={{borderRadius: 3}}>
             <CardMedia
@@ -19,7 +21,7 @@ export default function ActivityDetails({activity}: Props) {
             </CardContent>
             <CardActions>
                 <button color="primary">Edit</button>
-                <button color="inherit">Cancel</button>
+                <button onClick={cancelSelectActivity} color="inherit">Cancel</button>
             </CardActions>
         </Card>
   )
