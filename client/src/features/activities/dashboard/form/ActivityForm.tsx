@@ -4,18 +4,23 @@ import { FormEvent } from "react";
 type Props = {
     activity?: Activity
     closeForm: () => void
+    submitForm: (activity: Activity) => void
 }
-export default function ActivityForm({activity, closeForm}: Props) {
+export default function ActivityForm({activity, closeForm, submitForm}: Props) {
 
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
+        console.log(event)
        
         const formData = new FormData(event.currentTarget);
         const data: {[key: string]: FormDataEntryValue} = {}
         formData.forEach((value, key)=>{
             data[key] = value;
         });
-        console.log(data);
+
+        if (activity) data.id = activity.id
+
+       submitForm(data as unknown as Activity)
     } 
 
   return (
@@ -29,12 +34,13 @@ export default function ActivityForm({activity, closeForm}: Props) {
             <TextField name="category" label='Category' defaultValue={activity?.category} />
             <TextField name="date" label='Date' type="date" defaultValue={activity?.date}/>
             <TextField name="city" label='City' defaultValue={activity?.city}/>
-            <TextField name="venue" label='Venue' defaultValue={activity?.venue} />                
+            <TextField name="venue" label='Venue' defaultValue={activity?.venue} />     
+            <Box display='flex' justifyContent='end' paddingTop={3} gap={3}>
+                <Button onClick={closeForm} color='inherit'>Cancel</Button>
+                <Button type="submit" color='success' variant="contained">Submit</Button>
+            </Box>           
         </Box>
-        <Box display='flex' justifyContent='end' paddingTop={3} gap={3}>
-            <Button onClick={closeForm} color='inherit'>Cancel</Button>
-            <Button type="submit" color='success' variant="contained">Submit</Button>
-        </Box>
+        
    </Paper>
   )
 }
